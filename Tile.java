@@ -9,5 +9,16 @@ public class Tile {
         this.name = name;
         this.price = price;
         this.rents = rents;
+        owner = null;
     }
+
+    public String getName() {
+        return name;
+    }
+    public int getPrice() {
+        return price;
+    }
+    public Player getOwner() {
+        return owner;
+    } 
 }
