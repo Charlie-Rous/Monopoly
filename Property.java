@@ -46,7 +46,7 @@ public class Property extends Tile {
     }
 
     public String toString(){
-        return getName() + " [" + monopoly + "] [" + numHouses + "]";
+        return  " [" + monopoly + "] "+ getName() + "[" + numHouses + "]";
     }
     
 }

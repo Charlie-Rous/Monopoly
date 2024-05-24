@@ -25,6 +25,7 @@ public class Board {
             } else if (property.getOwner() != player) {
                 player.subtractMoney(property.getRents()[property.getNumHouses()]);
                 property.getOwner().addMoney(property.getRents()[property.getNumHouses()]);
+                System.out.println(player.getName() + " paid " + property.getOwner().getName() + " $" + property.getRents()[property.getNumHouses()]);
             }
         }
         System.out.println(player.getName() + " has $" + player.getMoney());
