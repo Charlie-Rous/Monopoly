@@ -6,6 +6,24 @@ public class Player {
     private int money;
     private int position;
     ArrayList<Property> properties = new ArrayList<Property>();
+    private int brownMonopoly = 0;
+    private int lightBlueMonopoly = 0;
+    private int pinkMonopoly = 0;
+    private int orangeMonopoly = 0;
+    private int redMonopoly = 0;
+    private int yellowMonopoly = 0;
+    private int greenMonopoly = 0;
+    private int blueMonopoly = 0;
+    private boolean hasBrownMonopoly = false;
+    private boolean hasLightBlueMonopoly = false;
+    private boolean hasPinkMonopoly = false;
+    private boolean hasOrangeMonopoly = false;
+    private boolean hasRedMonopoly = false;
+    private boolean hasYellowMonopoly = false;
+    private boolean hasGreenMonopoly = false;
+    private boolean hasBlueMonopoly = false;
+
+
 
     //create a constructor for the player class
     public Player(String name, int money) {
@@ -26,6 +44,57 @@ public class Player {
         System.out.println(name + " bought " + property.getName());
         properties.add(property);
         property.setOwner(this);
+        //increase the monopoly count for the property using switch
+        switch (property.getMonopoly()) {
+            case "Brown":
+                brownMonopoly++;
+                if (brownMonopoly == 2) {
+                    hasBrownMonopoly = true;
+                }
+                break;
+            case "Light Blue":
+                lightBlueMonopoly++;
+                if (lightBlueMonopoly == 3) {
+                    hasLightBlueMonopoly = true;
+                }
+                break;
+            case "Pink":
+                pinkMonopoly++;
+                if (pinkMonopoly == 3) {
+                    hasPinkMonopoly = true;
+                }
+                break;
+            case "Orange":
+                orangeMonopoly++;
+                if (orangeMonopoly == 3) {
+                    hasOrangeMonopoly = true;
+                }
+                break;
+            case "Red":
+                redMonopoly++;
+                if (redMonopoly == 3) {
+                    hasRedMonopoly = true;
+                }
+                break;
+            case "Yellow":
+                yellowMonopoly++;
+                if (yellowMonopoly == 3) {
+                    hasYellowMonopoly = true;
+                }
+                break;
+            case "Green":
+                greenMonopoly++;
+                if (greenMonopoly == 3) {
+                    hasGreenMonopoly = true;
+                }
+                break;
+            case "Blue":
+                blueMonopoly++;
+                if (blueMonopoly == 2) {
+                    hasBlueMonopoly = true;
+                }
+                break;
+        }
     }
     //create a method to get the player's properties
     public ArrayList<Property> getProperties() {

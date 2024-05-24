@@ -48,5 +48,8 @@ public class Property extends Tile {
     public String toString(){
         return  " [" + monopoly + "] "+ getName() + "[" + numHouses + "]";
     }
-    
+    //create a getter for the monopoly color
+    public String getMonopoly() {
+        return monopoly;
+    }
 }
