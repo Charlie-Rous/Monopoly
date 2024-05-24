@@ -2,32 +2,49 @@ import java.util.ArrayList;
 
 public class Board {
     private ArrayList<Tile> tiles;
+    private Jail jail;
 
     public Board() {
         tiles = new ArrayList<Tile>();
         populateTiles();
+        jail = new Jail("Jail");
     }
 
     // create a move method that takes in a player and a number of spaces to move
-    public void move(Player player, int spaces) {
-        player.move(spaces);
-        Tile tile = tiles.get(player.getPosition());
+    public void move(Player player, int spaces, boolean doubles) {
+        if (jail.getPlayers().contains(player)) {
+            if (doubles) {
+                jail.removePlayer(player);
+            } else {
+                System.out.println(player.getName() + " is in jail for " + jail.getTurns().get(jail.getPlayers().indexOf(player)) + " turns");
+                jail.addTurns(player);
+            }
+        } else {
+            player.move(spaces);
+            Tile tile = tiles.get(player.getPosition());
 
-        System.out.println(player.getName() + " landed on " + tile.getName());
+            System.out.println(player.getName() + " landed on " + tile.getName());
 
-        if (tile instanceof Property) {
-            Property property = (Property) tile;
-            if (property.getOwner() == null) {
-                if (player.wantsToBuy(property)) {
-                    player.addProperty(property);
-                    player.subtractMoney(property.getPrice());
+
+            if (tile instanceof Property) {
+                Property property = (Property) tile;
+                if (property.getOwner() == null) {
+                    if (player.wantsToBuy(property)) {
+                        player.addProperty(property);
+                        player.subtractMoney(property.getPrice());
+                    }
+                } else if (property.getOwner() != player) {
+                    player.subtractMoney(property.getRents()[property.getNumHouses()]);
+                    property.getOwner().addMoney(property.getRents()[property.getNumHouses()]);
+                    System.out.println(player.getName() + " paid " + property.getOwner().getName() + " $" + property.getRents()[property.getNumHouses()]);
                 }
-            } else if (property.getOwner() != player) {
-                player.subtractMoney(property.getRents()[property.getNumHouses()]);
-                property.getOwner().addMoney(property.getRents()[property.getNumHouses()]);
-                System.out.println(player.getName() + " paid " + property.getOwner().getName() + " $" + property.getRents()[property.getNumHouses()]);
+            } else if (tile instanceof Jail) {
+
+                jail.addPlayer(player);
+                player.setPosition(10);
             }
         }
+    
         System.out.println(player.getName() + " has $" + player.getMoney());
         System.out.println(player.getName() + " ownes: " + player.getProperties());
     }
