@@ -25,6 +25,7 @@ public class Player {
     public void addProperty(Property property) {
         System.out.println(name + " bought " + property.getName());
         properties.add(property);
+        property.setOwner(this);
     }
     //create a method to get the player's properties
     public ArrayList<Property> getProperties() {
