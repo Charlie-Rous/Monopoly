@@ -7,5 +7,13 @@ public class Property extends Tile {
         pricePerHouse = pph;
         monopoly = m;
     }
+
+    //create getters for the price per house and the number of houses
+    public int getPricePerHouse() {
+        return pricePerHouse;
+    }
+    public int getNumHouses() {
+        return numHouses;
+    }
     
 }

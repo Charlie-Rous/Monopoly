@@ -1,11 +1,19 @@
 import java.util.ArrayList;
 
 public class Board {
-    private ArrayList<Player> players;
     private ArrayList<Tile> tiles;
-    
 
+    public Board() {
+        tiles = new ArrayList<Tile>();
+        populateTiles();
+    }
 
+// create a move method that takes in a player and a number of spaces to move
+    public void move(Player player, int spaces) {
+        player.move(spaces);
+        Tile tile = tiles.get(player.getPosition());
+        System.out.println(player.getName() + " landed on " + tile.getName());
+    }
 
 
     public void populateTiles() {

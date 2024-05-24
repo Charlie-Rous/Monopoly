@@ -11,8 +11,10 @@ public class Player {
     }
 
     //create a boolean wants to buy method for the player class
-    public boolean wantsToBuy(int price) {
-        if (money >= price) {
+    public boolean wantsToBuy(Property property) {
+        if (money >= property.getPrice()) {
+            
+            System.out.println(name + " bought " + property.getName());
             return true;
         }
         return false;
@@ -22,9 +24,15 @@ public class Player {
         money += amount;
     }
 
+    //create a method to subtract money from the player's account
+    public void subtractMoney(int amount) {
+        money -= amount;
+    }
+
     //create a move method for the player class
     public void move(int spaces) {
         position += spaces;
+        position = position % 40;
     }
 
     //create a getter for the player's position
