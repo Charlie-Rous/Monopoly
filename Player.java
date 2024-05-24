@@ -129,4 +129,8 @@ public class Player {
     public int getMoney() {
         return money;
     }
+    //create a setter for the player's position
+    public void setPosition(int position) {
+        this.position = position;
+    }
 }
