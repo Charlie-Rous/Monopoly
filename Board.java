@@ -43,6 +43,9 @@ public class Board {
                 jail.addPlayer(player);
                 player.setPosition(10);
             }
+            if (player.monopolyToBuild() != null) {
+                player.build(player.monopolyToBuild());
+            }
         }
     
         System.out.println(player.getName() + " has $" + player.getMoney());

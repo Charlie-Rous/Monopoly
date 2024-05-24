@@ -6,7 +6,7 @@ public class Game {
     static final int STARTING_MONEY = 1500;
     static final int GO_MONEY = 200;
     static ArrayList<Player> players = new ArrayList<Player>();
-    static int numTurns = 20;
+    static int numTurns = 50;
     static int numDoubles = 0;
 
     public static void main(String[] args) {
@@ -17,6 +17,9 @@ public class Game {
         } 
         
     }
+
+    
+
     //play turn
     public static void playTurn() {
         for (int i = 0; i < players.size(); i++) {
@@ -43,6 +46,7 @@ public class Game {
                     i--;
                 }
             }  else {
+                numDoubles = 0;
                 System.out.println("--------------------");
             }
         }

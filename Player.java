@@ -1,11 +1,13 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 public class Player {
     //create a basic player class for the game
     private String name;
     private int money;
     private int position;
     ArrayList<Property> properties = new ArrayList<Property>();
+    HashMap<String, Boolean> monopolies = new HashMap<String, Boolean>();
     private int brownMonopoly = 0;
     private int lightBlueMonopoly = 0;
     private int pinkMonopoly = 0;
@@ -14,14 +16,7 @@ public class Player {
     private int yellowMonopoly = 0;
     private int greenMonopoly = 0;
     private int blueMonopoly = 0;
-    private boolean hasBrownMonopoly = false;
-    private boolean hasLightBlueMonopoly = false;
-    private boolean hasPinkMonopoly = false;
-    private boolean hasOrangeMonopoly = false;
-    private boolean hasRedMonopoly = false;
-    private boolean hasYellowMonopoly = false;
-    private boolean hasGreenMonopoly = false;
-    private boolean hasBlueMonopoly = false;
+    
 
 
 
@@ -29,6 +24,28 @@ public class Player {
     public Player(String name, int money) {
         this.name = name;
         this.money = money;
+        // Initialize all monopolies to false
+        monopolies.put("Brown", false);
+        monopolies.put("Light Blue", false);
+        monopolies.put("Pink", false);
+        monopolies.put("Orange", false);
+        monopolies.put("Red", false);
+        monopolies.put("Yellow", false);
+        monopolies.put("Green", false);
+        monopolies.put("Dark Blue", false);
+    }
+    // Check if player has a monopoly of a certain color
+    public boolean hasMonopoly(String color) {
+        return monopolies.get(color);
+    }
+
+    // Set a monopoly of a certain color
+    public void setMonopoly(String color, boolean hasMonopoly) {
+        monopolies.put(color, hasMonopoly);
+    }
+
+    public boolean hasAnyMonopoly() {
+        return monopolies.values().contains(true);
     }
 
     //create a boolean wants to buy method for the player class
@@ -37,6 +54,33 @@ public class Player {
             return true;
         }
         return false;
+    }
+
+    //create a wants to build method for the player class
+    public String monopolyToBuild() {
+        int numProperties = 3;
+        for (Property property : properties) {
+                
+            if (property.getMonopoly().equals("Dark Blue") || property.getMonopoly().equals("Brown")) {
+                numProperties = 2;
+            }
+            if (money >= property.getPricePerHouse() * numProperties && property.getNumHouses() < 5 && hasMonopoly(property.getMonopoly())){
+                return property.getMonopoly();
+            }
+            
+        }
+        return null;
+    }
+    public void build(String monopoly) {
+        int numHouses = 0;
+        for (Property property : properties) {
+            if (property.getMonopoly().equals(monopoly)) {
+                property.addHouse();
+                numHouses = property.getNumHouses();
+                subtractMoney(property.getPricePerHouse());
+            }
+        }
+        System.out.println("The " + monopoly + " monopoly now has " + numHouses + " houses.");
     }
 
     //create a method to add a property to the player's list of properties
@@ -49,49 +93,49 @@ public class Player {
             case "Brown":
                 brownMonopoly++;
                 if (brownMonopoly == 2) {
-                    hasBrownMonopoly = true;
+                    setMonopoly("Brown", true);
                 }
                 break;
             case "Light Blue":
                 lightBlueMonopoly++;
                 if (lightBlueMonopoly == 3) {
-                    hasLightBlueMonopoly = true;
+                    setMonopoly("Light BLue", true);
                 }
                 break;
             case "Pink":
                 pinkMonopoly++;
                 if (pinkMonopoly == 3) {
-                    hasPinkMonopoly = true;
+                    setMonopoly("Pink", true);  
                 }
                 break;
             case "Orange":
                 orangeMonopoly++;
                 if (orangeMonopoly == 3) {
-                    hasOrangeMonopoly = true;
+                    setMonopoly("Orange", true);
                 }
                 break;
             case "Red":
                 redMonopoly++;
                 if (redMonopoly == 3) {
-                    hasRedMonopoly = true;
+                    setMonopoly("Red", true);
                 }
                 break;
             case "Yellow":
                 yellowMonopoly++;
                 if (yellowMonopoly == 3) {
-                    hasYellowMonopoly = true;
+                    setMonopoly("Yellow", true);
                 }
                 break;
             case "Green":
                 greenMonopoly++;
                 if (greenMonopoly == 3) {
-                    hasGreenMonopoly = true;
+                    setMonopoly("Green", true);
                 }
                 break;
             case "Blue":
                 blueMonopoly++;
                 if (blueMonopoly == 2) {
-                    hasBlueMonopoly = true;
+                    setMonopoly("Dark Blue", true);
                 }
                 break;
         }

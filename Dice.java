@@ -10,4 +10,5 @@ public class Dice {
         System.out.println(name + " rolled a " + roll1 + " and a " + roll2);
         return roll1 + roll2;
     }
+
 }
