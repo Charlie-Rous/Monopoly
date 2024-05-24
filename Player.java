@@ -1,8 +1,11 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 public class Player {
     //create a basic player class for the game
     private String name;
     private int money;
     private int position;
+    ArrayList<Property> properties = new ArrayList<Property>();
 
     //create a constructor for the player class
     public Player(String name, int money) {
@@ -13,11 +16,19 @@ public class Player {
     //create a boolean wants to buy method for the player class
     public boolean wantsToBuy(Property property) {
         if (money >= property.getPrice()) {
-            
-            System.out.println(name + " bought " + property.getName());
             return true;
         }
         return false;
+    }
+
+    //create a method to add a property to the player's list of properties
+    public void addProperty(Property property) {
+        System.out.println(name + " bought " + property.getName());
+        properties.add(property);
+    }
+    //create a method to get the player's properties
+    public ArrayList<Property> getProperties() {
+        return properties;
     }
     //create a method to add money to the player's account
     public void addMoney(int amount) {

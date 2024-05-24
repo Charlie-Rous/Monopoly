@@ -13,6 +13,15 @@ public class Board {
         player.move(spaces);
         Tile tile = tiles.get(player.getPosition());
         System.out.println(player.getName() + " landed on " + tile.getName());
+        if (tile instanceof Property) {
+            Property property = (Property) tile;
+            if (player.wantsToBuy(property)) {
+                player.addProperty(property);
+                player.subtractMoney(property.getPrice());
+            }
+        }
+        System.out.println(player.getName() + " has $" + player.getMoney());
+        System.out.println(player.getName() + " ownes: " + player.getProperties()
     }
 
 

@@ -10,5 +10,6 @@ public class Game {
         Player player2 = new Player("Player 2", 1500); 
 
         board.move(player1, dice.roll(player1.getName()));
+        
     }
 }
