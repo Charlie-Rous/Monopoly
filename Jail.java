@@ -4,4 +4,5 @@ public class Jail extends Tile {
     public Jail(String name, int price, int[] rents) {
         super(name, price, rents);
     }
+
 }
