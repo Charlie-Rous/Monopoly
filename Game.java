@@ -35,6 +35,11 @@ public class Game {
                 System.out.println(players.get(i).getName() + " passed GO and collected $200");
             }
             board.move(players.get(i), roll, doubles);
+            if (players.get(i).getPosition() == 30) {
+                System.out.println(players.get(i).getName() + " is going to jail");
+                board.getJail().addPlayer(players.get(i));
+                players.get(i).setPosition(10);
+            }
             if (doubles) {
                 numDoubles++;
                 if (numDoubles == 3) {

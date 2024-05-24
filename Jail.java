@@ -13,6 +13,7 @@ public class Jail extends Tile {
         turns.add(3);
     }
     public void removePlayer(Player p) {
+        Sytstem.out.println(p.getName() + " is out of jail");
         turns.remove(players.indexOf(p));
         players.remove(p);
     }

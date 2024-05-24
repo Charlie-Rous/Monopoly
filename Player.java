@@ -80,6 +80,7 @@ public class Player {
                 subtractMoney(property.getPricePerHouse());
             }
         }
+        System.out.println(name + " built houses on the " + monopoly + " properties.");
         System.out.println("The " + monopoly + " monopoly now has " + numHouses + " houses.");
     }
 
