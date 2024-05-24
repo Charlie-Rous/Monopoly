@@ -7,6 +7,8 @@ public class Game {
     static final int GO_MONEY = 200;
     static ArrayList<Player> players = new ArrayList<Player>();
     static int numTurns = 20;
+    static int numDoubles = 0;
+
     public static void main(String[] args) {
         populatePlayers();
         while (numTurns > 0) {
@@ -18,20 +20,28 @@ public class Game {
     //play turn
     public static void playTurn() {
         for (int i = 0; i < players.size(); i++) {
-            int originalRoll = dice.roll(players.get(i).getName());
-            int roll;
-            if (originalRoll > 12) {
-                roll = originalRoll / 10;
-            } else {
-                roll = originalRoll;
-            }
+            boolean doubles = false;
+            int roll = dice.roll(players.get(i).getName());
+            
+            if (roll > 12) {
+                roll = roll / 10;
+                doubles = true;
+            } 
             if (players.get(i).getPosition() + roll >= 40) {
                 players.get(i).addMoney(GO_MONEY);
                 System.out.println(players.get(i).getName() + " passed GO and collected $200");
             }
-            board.move(players.get(i), roll);
-            if (originalRoll > 12) {
-                i--;
+            board.move(players.get(i), roll, doubles);
+            if (doubles) {
+                numDoubles++;
+                if (numDoubles == 3) {
+                    System.out.println(players.get(i).getName() + " rolled 3 doubles in a row and is going to jail");
+                    board.getJail().addPlayer(players.get(i));
+                    players.get(i).setPosition(10);
+                    numDoubles = 0;
+                } else {
+                    i--;
+                }
             }  else {
                 System.out.println("--------------------");
             }

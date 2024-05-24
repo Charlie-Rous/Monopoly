@@ -48,6 +48,9 @@ public class Board {
         System.out.println(player.getName() + " has $" + player.getMoney());
         System.out.println(player.getName() + " ownes: " + player.getProperties());
     }
+    public Jail getJail() {
+        return jail;
+    }
 
 
     public void populateTiles() {

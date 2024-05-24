@@ -6,20 +6,21 @@ public class Jail extends Tile {
     public Jail(String name) {
         super(name);
         players = new ArrayList<Player>();
+        turns = new ArrayList<Integer>();
     }
     public void addPlayer(Player p) {
         players.add(p);
         turns.add(3);
     }
     public void removePlayer(Player p) {
-        players.remove(p);
         turns.remove(players.indexOf(p));
+        players.remove(p);
     }
     public void addTurns(Player p) {
         turns.set(players.indexOf(p), turns.get(players.indexOf(p)) - 1);
         if (turns.get(players.indexOf(p)) == 0) {
-            players.remove(p);
             turns.remove(players.indexOf(p));
+            players.remove(p);
         }
     }
     public ArrayList<Player> getPlayers() {
