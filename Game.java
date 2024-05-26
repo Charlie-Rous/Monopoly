@@ -24,12 +24,12 @@ public class Game {
     public static void playTurn() {
         for (int i = 0; i < players.size(); i++) {
             boolean doubles = false;
-            int roll = dice.roll(players.get(i).getName());
+            int[] rolls = dice.roll(players.get(i).getName());
+            int roll = rolls[0] + rolls[1];
             
-            if (roll > 12) {
-                roll = roll / 10;
+            if(rolls[0] == rolls[1]) {
                 doubles = true;
-            } 
+            }
             if (players.get(i).getPosition() + roll >= 40) {
                 players.get(i).addMoney(GO_MONEY);
                 System.out.println(players.get(i).getName() + " passed GO and collected $200");

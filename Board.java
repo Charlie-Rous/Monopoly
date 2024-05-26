@@ -67,7 +67,7 @@ public class Board {
         int[] rents2 = {4, 20, 60, 180, 320, 450};
         tiles.add(new Property("Baltic Avenue", 60, rents2, 50, "Brown" ));
 
-        tiles.add(new Tile("Income Tax"));
+        tiles.add(new Income("Income Tax", 200, 10));
         tiles.add(new Tile("Reading Railroad"));
 
         int[] rents3 = {6, 30, 90, 270, 400, 550};
@@ -140,7 +140,7 @@ public class Board {
         int[] rents15 = {35, 175, 500, 1100, 1300, 1500};
         tiles.add(new Property("Park Place", 350, rents15, 200, "Dark Blue"));
 
-        tiles.add(new Tile("Luxury Tax"));
+        tiles.add(new Tax("Luxury Tax", 100));
         
         int[] rents16 = {50, 200, 600, 1400, 1700, 2000};
         tiles.add(new Property("Boardwalk", 400, rents16, 200, "Dark Blue"));
