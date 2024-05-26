@@ -38,10 +38,17 @@ public class Board {
                     property.getOwner().addMoney(property.getRents()[property.getNumHouses()]);
                     System.out.println(player.getName() + " paid " + property.getOwner().getName() + " $" + property.getRents()[property.getNumHouses()]);
                 }
-            } else if (tile instanceof Jail) {
-
-                jail.addPlayer(player);
-                player.setPosition(10);
+            } else if (tile instanceof Tax) {
+                if (tile instanceof Income) {
+                    if (player.getMoney() * ((Income) tile).getPercent() < ((Income) tile).getAmount()) {
+                        player.subtractMoney((int) (player.getMoney() * ((Income) tile).getPercent()));
+                    } else {
+                        player.subtractMoney(((Income) tile).getAmount());
+                    }
+                } else {
+                    player.subtractMoney(((Tax) tile).getAmount());
+                }
+                
             }
             if (player.monopolyToBuild() != null) {
                 player.build(player.monopolyToBuild());
@@ -67,7 +74,7 @@ public class Board {
         int[] rents2 = {4, 20, 60, 180, 320, 450};
         tiles.add(new Property("Baltic Avenue", 60, rents2, 50, "Brown" ));
 
-        tiles.add(new Income("Income Tax", 200, 10));
+        tiles.add(new Income("Income Tax", 200, 0.1));
         tiles.add(new Tile("Reading Railroad"));
 
         int[] rents3 = {6, 30, 90, 270, 400, 550};
@@ -79,7 +86,7 @@ public class Board {
         int[] rents4 = {8, 40, 100, 300, 450, 600};
         tiles.add(new Property("Connecticut Avenue", 120, rents4, 50, "Light Blue" ));
 
-        tiles.add(new Tile("Jail"));
+        tiles.add(new Jail("Jail"));
 
         int[] rents5 = {10, 50, 150, 450, 625, 750};
         tiles.add(new Property("St. Charles Place", 140, rents5, 100, "Pink" ));

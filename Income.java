@@ -1,11 +1,11 @@
 public class Income extends Tax {
-    private int percentage;
-    public Income(String name, int amount, int percentage) {
+    private double percent;
+    public Income(String name, int amount, double percent) {
         super(name, amount);
-        this.percentage = percentage;
+        this.percent = percent;
     }
 
-    public int getPercentage() {
-        return percentage;
+    public double getPercent() {
+        return percent;
     }
 }
