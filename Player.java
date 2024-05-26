@@ -24,6 +24,7 @@ public class Player {
     public Player(String name, int money) {
         this.name = name;
         this.money = money;
+        position = 0;
         // Initialize all monopolies to false
         monopolies.put("Brown", false);
         monopolies.put("Light Blue", false);
