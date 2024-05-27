@@ -14,7 +14,7 @@ public class Utilities extends Property {
 
     }
 
-    public void increaseNumOwned() {
+    public static void increaseNumOwned() {
         numOwned++;
     }
 

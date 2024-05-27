@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javax.rmi.CORBA.Util;
+
 
 
 public class Board {
@@ -17,6 +19,7 @@ public class Board {
         if (jail.getPlayers().contains(player)) {
             if (doubles) {
                 jail.removePlayer(player);
+                move(player, spaces, doubles);
             } else {
                 System.out.println(player.getName() + " is in jail for "
                         + jail.getTurns().get(jail.getPlayers().indexOf(player)) + " turns");
@@ -25,44 +28,10 @@ public class Board {
         } else {
             player.move(spaces);
             Tile tile = tiles.get(player.getPosition());
-
             System.out.println(player.getName() + " landed on " + tile.getName());
 
-            if (tile instanceof Property) {
-                Property property = (Property) tile;
-                if (property.getOwner() == null) {
-                    if (player.wantsToBuy(property)) {
-                        player.addProperty(property);
-                        player.subtractMoney(property.getPrice());
-                    }
-                } else if (property.getOwner() != player) {
-                    player.subtractMoney(property.getRents()[property.getNumHouses()]);
-                    property.getOwner().addMoney(property.getRents()[property.getNumHouses()]);
-                    System.out.println(player.getName() + " paid " + property.getOwner().getName() + " $"
-                            + property.getRents()[property.getNumHouses()]);
-                }
-            } else if (tile instanceof Tax) {
-                if (tile instanceof Income) {
-                    int amount = ((Income) tile).getAmount();
-                    double percent = ((Income) tile).getPercent();
-                    if (player.getMoney() * percent < amount) {
-                        FreeParking.addFunds((int) (player.getMoney() * percent));
-                        System.out.println(player.getName() + " paid $" + (int) (player.getMoney() * percent) + " in income tax");
-                        player.subtractMoney((int) (player.getMoney() * percent));
-                    } else {
-                        player.subtractMoney(amount);
-                        FreeParking.addFunds(amount);
-                    }
-                } else {
-                    player.subtractMoney(((Tax) tile).getAmount());
-                    FreeParking.addFunds(((Tax) tile).getAmount());
-                }
-
-            } else if (tile instanceof FreeParking) {
-                player.addMoney(FreeParking.getFunds());
-                System.out.println(player.getName() + " collected $" + FreeParking.getFunds() + " from Free Parking");
-                FreeParking.clearFunds();
-            }
+            processTile(tile, player, spaces);
+            
             if (player.monopolyToBuild() != null) {
                 player.build(player.monopolyToBuild());
             }
@@ -70,6 +39,58 @@ public class Board {
 
         System.out.println(player.getName() + " has $" + player.getMoney());
         System.out.println(player.getName() + " ownes: " + player.getProperties());
+    }
+
+    public void processTile(Tile tile, Player player, int roll) {
+        if (tile instanceof Property) {
+            Property property = (Property) tile;
+            int rent;
+            if (property instanceof Utilities) {
+                Utilities utility = (Utilities) property;
+                rent = utility.getRent(roll);
+            } else {
+                rent = property.getRent();
+            }
+            
+            if (property.getOwner() == null) { // If no one owns the property
+                if (player.wantsToBuy(property)) {
+                    player.subtractMoney(property.getPrice());
+                    player.addProperty(property);
+                    property.setOwner(player);
+                    if (property instanceof Transportation) {
+                        Transportation.increaseNumOwned();
+                    } else if (property instanceof Utilities) {
+                        Utilities.increaseNumOwned();
+                    }
+                }
+            } else if (property.getOwner() != player) { // If someone else owns the property
+                player.subtractMoney(rent);
+                property.getOwner().addMoney(rent);
+
+                System.out.println(player.getName() + " paid " + property.getOwner().getName() + " $"+ rent);
+            }
+        } else if (tile instanceof Tax) {
+            if (tile instanceof Income) {
+                int amount = ((Income) tile).getAmount();
+                double percent = ((Income) tile).getPercent();
+                if (player.getMoney() * percent < amount) {
+                    System.out.println(player.getName() + " paid $" + (int) (player.getMoney() * percent) + " in income tax");
+                    FreeParking.addFunds((int) (player.getMoney() * percent));
+                    player.subtractMoney((int) (player.getMoney() * percent));
+                } else {
+                    player.subtractMoney(amount);
+                    FreeParking.addFunds(amount);
+                }
+            } else {
+                player.subtractMoney(((Tax) tile).getAmount());
+                FreeParking.addFunds(((Tax) tile).getAmount());
+            }
+
+        } else if (tile instanceof FreeParking) {
+            player.addMoney(FreeParking.getFunds());
+            System.out.println(player.getName() + " collected $" + FreeParking.getFunds() + " from Free Parking");
+            FreeParking.clearFunds();
+        }
     }
 
     public Jail getJail() {

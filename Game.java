@@ -45,13 +45,17 @@ public class Game {
                     board.getJail().addPlayer(players.get(i));
                     players.get(i).setPosition(10);
                     numDoubles = 0;
+                    System.out.println();
+                    System.out.println("--------------------");
                 } else {
                     i--;
                 }
             } else {
                 numDoubles = 0;
+                System.out.println();
                 System.out.println("--------------------");
             }
+            System.out.println();
         }
     }
 

@@ -2,12 +2,14 @@ public class Property extends Tile {
     
     private int price;
     private Player owner;
+    private int rent;
     
 
     public Property(String name, int price) {
         super(name);
         this.price = price;
         this.owner = null;
+        rent = 0;
     }
 
 
@@ -19,6 +21,10 @@ public class Property extends Tile {
 
     public Player getOwner() {
         return owner;
+    }
+
+    public int getRent() {
+        return rent;
     }
 
    

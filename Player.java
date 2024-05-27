@@ -60,14 +60,18 @@ public class Player {
     public String monopolyToBuild() {
         int numProperties = 3;
         for (Property property : properties) {
+            if (property instanceof RealEstate) {
+                RealEstate realEstate = (RealEstate) property;
 
-            if (property.getMonopoly().equals("Dark Blue") || property.getMonopoly().equals("Brown")) {
-                numProperties = 2;
+                if (realEstate.getMonopoly().equals("Dark Blue") || realEstate.getMonopoly().equals("Brown")) {
+                    numProperties = 2;
+                }
+                if (money >= realEstate.getPricePerHouse() * numProperties && realEstate.getNumHouses() < 5
+                        && hasMonopoly(realEstate.getMonopoly())) {
+                    return realEstate.getMonopoly();
+                }
             }
-            if (money >= property.getPricePerHouse() * numProperties && property.getNumHouses() < 5
-                    && hasMonopoly(property.getMonopoly())) {
-                return property.getMonopoly();
-            }
+            
 
         }
         return null;
@@ -76,11 +80,15 @@ public class Player {
     public void build(String monopoly) {
         int numHouses = 0;
         for (Property property : properties) {
-            if (property.getMonopoly().equals(monopoly)) {
-                property.addHouse();
-                numHouses = property.getNumHouses();
-                subtractMoney(property.getPricePerHouse());
+            if (property instanceof RealEstate) {
+                RealEstate realEstate = (RealEstate) property;
+                if (realEstate.getMonopoly().equals(monopoly)) {
+                    realEstate.addHouse();
+                    numHouses = realEstate.getNumHouses();
+                    subtractMoney(realEstate.getPricePerHouse());
+                }
             }
+        
         }
         System.out.println(name + " built houses on the " + monopoly + " properties.");
         System.out.println("The " + monopoly + " monopoly now has " + numHouses + " houses.");
@@ -92,6 +100,13 @@ public class Player {
         properties.add(property);
         property.setOwner(this);
         // increase the monopoly count for the property using switch
+        if (property instanceof RealEstate) {
+            increaseMonopolyCount((RealEstate) property);
+        }
+       
+    }
+
+    public void increaseMonopolyCount(RealEstate property) {
         switch (property.getMonopoly()) {
             case "Brown":
                 brownMonopoly++;
@@ -135,13 +150,13 @@ public class Player {
                     setMonopoly("Green", true);
                 }
                 break;
-            case "Blue":
+            case "Dark Blue":
                 blueMonopoly++;
                 if (blueMonopoly == 2) {
-                    setMonopoly("Dark Blue", true);
+                    setMonopoly"Dark Blue", true);
                 }
                 break;
-        }
+        }    
     }
 
     // create a method to get the player's properties

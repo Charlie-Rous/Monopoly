@@ -8,6 +8,8 @@ public class RealEstate extends Property {
         super(name, price);
         this.pricePerHouse = pricePerHouse;
         this.monopoly = monopoly;
+        this.rents = rents;
+        
     }
     
     // create getters for the price per house and the number of houses
@@ -28,11 +30,11 @@ public class RealEstate extends Property {
     }
 
     // create a getter for the monopoly color
-     public String getMonopoly() {
+    public String getMonopoly() {
         return monopoly;
     }
 
-    public int[] getRents() {
-        return rents;
+    public int getRent() {
+        return rents[numHouses];
     }
 }
