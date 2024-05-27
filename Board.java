@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+
+
 public class Board {
     private ArrayList<Tile> tiles;
     private Jail jail;
@@ -41,15 +43,24 @@ public class Board {
                 }
             } else if (tile instanceof Tax) {
                 if (tile instanceof Income) {
-                    if (player.getMoney() * ((Income) tile).getPercent() < ((Income) tile).getAmount()) {
-                        player.subtractMoney((int) (player.getMoney() * ((Income) tile).getPercent()));
+                    int amount = ((Income) tile).getAmount();
+                    double percent = ((Income) tile).getPercent();
+                    if (player.getMoney() * percent < amount) {
+                        FreeParking.addFunds((int) (player.getMoney() * percent));
+                        player.subtractMoney((int) (player.getMoney() * percent));
                     } else {
-                        player.subtractMoney(((Income) tile).getAmount());
+                        player.subtractMoney(amount);
+                        FreeParking.addFunds(amount);
                     }
                 } else {
                     player.subtractMoney(((Tax) tile).getAmount());
+                    FreeParking.addFunds(((Tax) tile).getAmount());
                 }
 
+            } else if (tile instanceof FreeParking) {
+                player.addMoney(FreeParking.getFunds());
+                System.out.println(player.getName() + " collected $" + FreeParking.getFunds() + " from Free Parking");
+                FreeParking.clearFunds();
             }
             if (player.monopolyToBuild() != null) {
                 player.build(player.monopolyToBuild());
@@ -109,7 +120,7 @@ public class Board {
         int[] rents8 = { 16, 80, 220, 600, 800, 1000 };
         tiles.add(new Property("New York Avenue", 200, rents8, 100, "Orange"));
 
-        tiles.add(new Tile("Free Parking"));
+        tiles.add(new FreeParking("Free Parking"));
 
         int[] rents9 = { 18, 90, 250, 700, 875, 1050 };
         tiles.add(new Property("Kentucky Avenue", 220, rents9, 150, "Red"));
