@@ -1,7 +1,24 @@
-public class Transportation extends Tile {
+public class Transportation extends Property {
+    static int numOwned;
+    int[] rents = {25, 50, 100, 200};
 
-    public Transportation(String name, int price, int[] rents) {
-        super(name, price, rents);
+    public Transportation(String name) {
+        super(name, 200);
+        numOwned = 0;
     }
+
+    public int getRent() {
+        return rents[numOwned];
+    }
+
+    public void increaseNumOwned() {
+        numOwned++;
+    }
+
+    public String toString() {
+        return getName() + " [" + numOwned + "]";
+    }
+
+
     
 }

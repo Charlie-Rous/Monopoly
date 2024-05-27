@@ -1,0 +1,38 @@
+public class RealEstate extends Property {
+    private int pricePerHouse;
+    private int numHouses = 0;
+    private String monopoly;
+    private int[] rents;
+
+    public RealEstate(String name, int price, int[] rents, int pricePerHouse, String monopoly) {
+        super(name, price);
+        this.pricePerHouse = pricePerHouse;
+        this.monopoly = monopoly;
+    }
+    
+    // create getters for the price per house and the number of houses
+    public int getPricePerHouse() {
+        return pricePerHouse;
+    }
+
+    public int getNumHouses() {
+        return numHouses;
+    }
+
+    public void addHouse() {
+        numHouses++;
+    }
+
+    public String toString() {
+        return " [" + monopoly + "] " + getName() + "[" + numHouses + "]";
+    }
+
+    // create a getter for the monopoly color
+     public String getMonopoly() {
+        return monopoly;
+    }
+
+    public int[] getRents() {
+        return rents;
+    }
+}

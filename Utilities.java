@@ -1,8 +1,24 @@
-public class Utilities extends Tile {
-    
+public class Utilities extends Property {
+    static int numOwned = 0;
 
-    public Utilities(String name, int price, int[] rents) {
-        super(name, price, rents);
+    public Utilities(String name) {
+        super(name, 150);
+    }
+
+    public int getRent(int roll) {
+        if (numOwned == 1) {
+            return roll * 4;
+        }
+
+        return roll * 10;
+
+    }
+
+    public void increaseNumOwned() {
+        numOwned++;
+    }
+
+    public String toString() {
+        return getName() + " [" + numOwned + "]";
     }
 }
-
