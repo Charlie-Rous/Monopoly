@@ -47,6 +47,7 @@ public class Board {
                     double percent = ((Income) tile).getPercent();
                     if (player.getMoney() * percent < amount) {
                         FreeParking.addFunds((int) (player.getMoney() * percent));
+                        System.out.println(player.getName() + " paid $" + (int) (player.getMoney() * percent) + " in income tax");
                         player.subtractMoney((int) (player.getMoney() * percent));
                     } else {
                         player.subtractMoney(amount);

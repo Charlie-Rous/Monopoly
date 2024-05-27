@@ -6,8 +6,10 @@ public class Dice {
         rolls[1] = (int) (Math.random() * 6) + 1;
         if (rolls[0] == rolls[1]) {
             System.out.println(name + " rolled double " + rolls[0] + "s");
+        } else {
+            System.out.println(name + " rolled a " + rolls[0] + " and a " + rolls[1]);
         }
-        System.out.println(name + " rolled a " + rolls[0] + " and a " + rolls[1]);
+        
         return rolls;
 
     }
