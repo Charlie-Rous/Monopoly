@@ -14,20 +14,18 @@ public class Game {
         while (numTurns > 0) {
             playTurn();
             numTurns--;
-        } 
-        
+        }
+
     }
 
-    
-
-    //play turn
+    // play turn
     public static void playTurn() {
         for (int i = 0; i < players.size(); i++) {
             boolean doubles = false;
             int[] rolls = dice.roll(players.get(i).getName());
             int roll = rolls[0] + rolls[1];
-            
-            if(rolls[0] == rolls[1]) {
+
+            if (rolls[0] == rolls[1]) {
                 doubles = true;
             }
             if (players.get(i).getPosition() + roll >= 40) {
@@ -50,13 +48,14 @@ public class Game {
                 } else {
                     i--;
                 }
-            }  else {
+            } else {
                 numDoubles = 0;
                 System.out.println("--------------------");
             }
         }
     }
-    //populate players
+
+    // populate players
     public static void populatePlayers() {
         players.add(new Player("Player 1", STARTING_MONEY));
         players.add(new Player("Player 2", STARTING_MONEY));
