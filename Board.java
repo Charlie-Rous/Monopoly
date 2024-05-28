@@ -7,10 +7,15 @@ import javax.rmi.CORBA.Util;
 public class Board {
     private ArrayList<Tile> tiles;
     private Jail jail;
+    private Deck chance;
+    private Deck communityChest;
 
     public Board() {
         tiles = new ArrayList<Tile>();
+        populateChance();
+        populateCommunityChest();
         populateTiles();
+        
         jail = new Jail("Jail");
     }
 
@@ -90,7 +95,20 @@ public class Board {
             player.addMoney(FreeParking.getFunds());
             System.out.println(player.getName() + " collected $" + FreeParking.getFunds() + " from Free Parking");
             FreeParking.clearFunds();
-        }
+        } else if (tile instanceof CardTile) {
+            Card card;
+            if (tile.getName().equals("Chance")) {
+                card = chance.drawCard();
+                System.out.println(player.getName() + " drew a Chance card: " + card.getText());
+                chance.addCard(card);
+            } else {
+                card = communityChest.drawCard();
+                System.out.println(player.getName() + " drew a Community Chest card: " + card.getText());
+                communityChest.addCard(card);
+            }
+            card.execute(player, this);
+
+        } 
     }
 
     public Jail getJail() {
@@ -103,7 +121,7 @@ public class Board {
         int[] rents = { 2, 10, 30, 90, 160, 250 };
         tiles.add(new RealEstate("Mediterranean Avenue", 60, rents, 50, "Brown"));
 
-        tiles.add(new Tile("Community Chest"));
+        tiles.add(new CardTile("Community Chest", communityChest));
 
         int[] rents2 = { 4, 20, 60, 180, 320, 450 };
         tiles.add(new RealEstate("Baltic Avenue", 60, rents2, 50, "Brown"));
@@ -114,7 +132,7 @@ public class Board {
         int[] rents3 = { 6, 30, 90, 270, 400, 550 };
         tiles.add(new RealEstate("Oriental Avenue", 100, rents3, 50, "Light Blue"));
 
-        tiles.add(new Tile("Chance"));
+        tiles.add(new CardTile("Chance", chance));
 
         tiles.add(new RealEstate("Vermont Avenue", 100, rents3, 50, "Light Blue"));
         int[] rents4 = { 8, 40, 100, 300, 450, 600 };
@@ -136,7 +154,7 @@ public class Board {
         int[] rents7 = { 14, 70, 200, 550, 750, 950 };
         tiles.add(new RealEstate("St. James Place", 180, rents7, 100, "Orange"));
 
-        tiles.add(new Tile("Community Chest"));
+        tiles.add(new CardTile("Community Chest", communityChest));
 
         tiles.add(new RealEstate("Tennessee Avenue", 180, rents7, 100, "Orange"));
         int[] rents8 = { 16, 80, 220, 600, 800, 1000 };
@@ -147,7 +165,7 @@ public class Board {
         int[] rents9 = { 18, 90, 250, 700, 875, 1050 };
         tiles.add(new RealEstate("Kentucky Avenue", 220, rents9, 150, "Red"));
 
-        tiles.add(new Tile("Chance"));
+        tiles.add(new CardTile("Chance", chance));
 
         tiles.add(new RealEstate("Indiana Avenue", 220, rents9, 150, "Red"));
         int[] rents10 = { 20, 100, 300, 750, 925, 1100 };
@@ -186,4 +204,55 @@ public class Board {
         int[] rents16 = { 50, 200, 600, 1400, 1700, 2000 };
         tiles.add(new RealEstate("Boardwalk", 400, rents16, 200, "Dark Blue"));
     }
+
+    public void populateChance() {
+        chance = new Deck();
+        chance.addCard(new MoveTo("Advance to Go", 0));
+        chance.addCard(new MoveTo("Advance to Illinois Avenue", 24));
+        chance.addCard(new MoveTo("Advance to St. Charles Place", 11));
+        chance.addCard(new MoveTo("Advance to Reading Railroad", 5));
+        chance.addCard(new MoveTo("Advance to Boardwalk", 39));
+        chance.addCard(new MoneyCard("Bank pays you dividend of $50", 50));
+        //chance.addCard(new Card("Get out of Jail Free", 0));
+        chance.addCard(new MoveCard("Go back 3 spaces", -3));
+        chance.addCard(new MoveCard("Go forward 3 spaces", 3));
+        chance.addCard(new MoveTo("Go to Jail", 30));
+        chance.addCard(new MoneyCard("Pay poor tax of $15", -15));
+        chance.addCard(new MoveTo("Take a trip to Reading Railroad", 5));
+        chance.addCard(new MoveTo("Take a walk on the Boardwalk", 39));
+
+        chance.shuffle();
+    }
+
+    public void populateCommunityChest() {
+        communityChest = new Deck();
+        communityChest.addCard(new MoneyCard("Bank error in your favor, collect $200", 200));
+        communityChest.addCard(new MoneyCard("Doctor's fees, pay $50", -50));
+        communityChest.addCard(new MoneyCard("From sale of stock you get $50", 50));
+        //communityChest.addCard(new MoneyCard("Get out of Jail Free", 0));
+        //communityChest.addCard(new MoneyCard("Grand Opera Night, collect $50 from every player", 50));
+        communityChest.addCard(new MoneyCard("Holiday Fund matures, collect $100", 100));
+        communityChest.addCard(new MoneyCard("Income tax refund, collect $20", 20));
+        //communityChest.addCard(new MoneyCard("It's your birthday, collect $10 from every player", 10));
+        communityChest.addCard(new MoneyCard("Life insurance matures, collect $100", 100));
+        communityChest.addCard(new MoneyCard("Pay hospital fees of $100", -100));
+        communityChest.addCard(new MoneyCard("Pay school fees of $50", -50));
+        communityChest.addCard(new MoneyCard("Receive $25 consultancy fee", 25));
+        //communityChest.addCard(new MoneyCard("You are assessed for street repairs, $40 per house, $115 per hotel", 0));
+        communityChest.addCard(new MoneyCard("You have won second prize in a beauty contest, collect $10", 10));
+        communityChest.addCard(new MoneyCard("You inherit $100", 100));
+        communityChest.addCard(new MoneyCard("From sale of stock you get $45", 45));
+        communityChest.addCard(new MoneyCard("You get a $100 birthday gift", 100));
+        communityChest.addCard(new MoneyCard("You win $10", 10));
+        communityChest.addCard(new MoneyCard("You win $100", 100));
+        communityChest.addCard(new MoneyCard("You win $20", 20));
+        communityChest.addCard(new MoneyCard("You win $200", 200));
+        communityChest.addCard(new MoneyCard("You win $50", 50));
+        communityChest.addCard(new MoneyCard("You win $5", 5));
+        
+        communityChest.shuffle();
+    }
+
+
 }
+
