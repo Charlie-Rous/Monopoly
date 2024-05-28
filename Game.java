@@ -6,14 +6,21 @@ public class Game {
     static final int STARTING_MONEY = 1500;
     static final int GO_MONEY = 200;
     static ArrayList<Player> players = new ArrayList<Player>();
-    static int numTurns = 50;
+    static int numTurns = 0;;
     static int numDoubles = 0;
+    static final int MAX_TURNS = 100;
 
     public static void main(String[] args) {
         populatePlayers();
-        while (numTurns > 0) {
+        while (players.size() > 1 && numTurns < MAX_TURNS) {
             playTurn();
-            numTurns--;
+            numTurns++;
+        }
+
+        if (players.size() == 1) {
+            System.out.println(players.get(0).getName() + " wins!");
+        } else {
+            System.out.println("Game ended in a draw");
         }
 
     }
@@ -33,6 +40,15 @@ public class Game {
                 System.out.println(players.get(i).getName() + " passed GO and collected $200");
             }
             board.move(players.get(i), roll, doubles);
+
+            if (players.get(i).getMoney() < 0) {
+                System.out.println(players.get(i).getName() + " has gone bankrupt and is out of the game");
+                players.get(i).leaveGame();
+                players.remove(i);
+                i--;
+                break;
+            }
+
             if (players.get(i).getPosition() == 30) {
                 System.out.println(players.get(i).getName() + " is going to jail");
                 board.getJail().addPlayer(players.get(i));
@@ -55,6 +71,7 @@ public class Game {
                 System.out.println();
                 System.out.println("--------------------");
             }
+
             System.out.println();
         }
     }

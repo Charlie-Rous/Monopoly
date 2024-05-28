@@ -12,6 +12,10 @@ public class Property extends Tile {
         rent = 0;
     }
 
+    public void clear() {
+        owner = null;
+    }
+
 
 
     // create getters for the price and the owner of the property

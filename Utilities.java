@@ -14,6 +14,12 @@ public class Utilities extends Property {
 
     }
 
+    public void clear() {
+        super.clear();
+        numOwned--;
+    
+    }
+
     public static void increaseNumOwned() {
         numOwned++;
     }

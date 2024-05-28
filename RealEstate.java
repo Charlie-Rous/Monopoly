@@ -9,7 +9,12 @@ public class RealEstate extends Property {
         this.pricePerHouse = pricePerHouse;
         this.monopoly = monopoly;
         this.rents = rents;
-        
+
+    }
+
+    public void clear() {
+        super.clear();
+        numHouses = 0;
     }
     
     // create getters for the price per house and the number of houses
@@ -36,5 +41,9 @@ public class RealEstate extends Property {
 
     public int getRent() {
         return rents[numHouses];
+    }
+
+    public void setNumHouses(int numHouses) {
+        this.numHouses = numHouses;
     }
 }

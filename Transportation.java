@@ -7,6 +7,11 @@ public class Transportation extends Property {
         numOwned = 0;
     }
 
+    public void clear() {
+        super.clear();
+        numOwned--;
+    }
+
     public int getRent() {
         return rents[numOwned];
     }

@@ -159,6 +159,13 @@ public class Player {
         }    
     }
 
+    public void leaveGame() {
+        for (Property property : properties) {
+            property.clear();
+
+        }
+    }
+
     // create a method to get the player's properties
     public ArrayList<Property> getProperties() {
         return properties;
