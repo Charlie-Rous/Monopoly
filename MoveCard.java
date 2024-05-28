@@ -1,12 +1,12 @@
 public class MoveCard extends Card {
-    
+
     private int amount;
-    
+
     public MoveCard(String text, int amount) {
         super(text);
         this.amount = amount;
     }
-    
+
     public int getAmount() {
         return amount;
     }

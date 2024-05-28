@@ -13,5 +13,4 @@ public class Card {
         System.out.println("Executing card: " + text);
     }
 
-
 }

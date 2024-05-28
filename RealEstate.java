@@ -16,8 +16,7 @@ public class RealEstate extends Property {
         super.clear();
         numHouses = 0;
     }
-    
-    // create getters for the price per house and the number of houses
+
     public int getPricePerHouse() {
         return pricePerHouse;
     }
@@ -34,7 +33,6 @@ public class RealEstate extends Property {
         return " [" + monopoly + "] " + getName() + "[" + numHouses + "]";
     }
 
-    // create a getter for the monopoly color
     public String getMonopoly() {
         return monopoly;
     }

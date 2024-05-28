@@ -2,8 +2,6 @@ import java.util.ArrayList;
 
 import javax.rmi.CORBA.Util;
 
-
-
 public class Board {
     private ArrayList<Tile> tiles;
     private Jail jail;
@@ -15,14 +13,14 @@ public class Board {
         populateChance();
         populateCommunityChest();
         populateTiles();
-        
+
         jail = new Jail("Jail");
     }
 
-    // create a move method that takes in a player and a number of spaces to move
+    
     public void move(Player player, int spaces, boolean doubles) {
         if (jail.getPlayers().contains(player)) {
-            if (doubles) {
+            if (doubles) { // rolling doubles lets you out of jail
                 jail.removePlayer(player);
                 move(player, spaces, doubles);
             } else {
@@ -36,7 +34,7 @@ public class Board {
             System.out.println(player.getName() + " landed on " + tile.getName());
 
             processTile(tile, player, spaces);
-            
+
             if (player.monopolyToBuild() != null) {
                 player.build(player.monopolyToBuild());
             }
@@ -56,7 +54,7 @@ public class Board {
             } else {
                 rent = property.getRent();
             }
-            
+
             if (property.getOwner() == null) { // If no one owns the property
                 if (player.wantsToBuy(property)) {
                     player.subtractMoney(property.getPrice());
@@ -72,14 +70,15 @@ public class Board {
                 player.subtractMoney(rent);
                 property.getOwner().addMoney(rent);
 
-                System.out.println(player.getName() + " paid " + property.getOwner().getName() + " $"+ rent);
+                System.out.println(player.getName() + " paid " + property.getOwner().getName() + " $" + rent);
             }
         } else if (tile instanceof Tax) {
             if (tile instanceof Income) {
                 int amount = ((Income) tile).getAmount();
                 double percent = ((Income) tile).getPercent();
                 if (player.getMoney() * percent < amount) {
-                    System.out.println(player.getName() + " paid $" + (int) (player.getMoney() * percent) + " in income tax");
+                    System.out.println(
+                            player.getName() + " paid $" + (int) (player.getMoney() * percent) + " in income tax");
                     FreeParking.addFunds((int) (player.getMoney() * percent));
                     player.subtractMoney((int) (player.getMoney() * percent));
                 } else {
@@ -108,7 +107,7 @@ public class Board {
             }
             card.execute(player, this);
 
-        } 
+        }
     }
 
     public Jail getJail() {
@@ -213,7 +212,7 @@ public class Board {
         chance.addCard(new MoveTo("Advance to Reading Railroad", 5));
         chance.addCard(new MoveTo("Advance to Boardwalk", 39));
         chance.addCard(new MoneyCard("Bank pays you dividend of $50", 50));
-        //chance.addCard(new Card("Get out of Jail Free", 0));
+        // chance.addCard(new Card("Get out of Jail Free", 0));
         chance.addCard(new MoveCard("Go back 3 spaces", -3));
         chance.addCard(new MoveCard("Go forward 3 spaces", 3));
         chance.addCard(new MoveTo("Go to Jail", 30));
@@ -229,16 +228,19 @@ public class Board {
         communityChest.addCard(new MoneyCard("Bank error in your favor, collect $200", 200));
         communityChest.addCard(new MoneyCard("Doctor's fees, pay $50", -50));
         communityChest.addCard(new MoneyCard("From sale of stock you get $50", 50));
-        //communityChest.addCard(new MoneyCard("Get out of Jail Free", 0));
-        //communityChest.addCard(new MoneyCard("Grand Opera Night, collect $50 from every player", 50));
+        // communityChest.addCard(new MoneyCard("Get out of Jail Free", 0));
+        // communityChest.addCard(new MoneyCard("Grand Opera Night, collect $50 from
+        // every player", 50));
         communityChest.addCard(new MoneyCard("Holiday Fund matures, collect $100", 100));
         communityChest.addCard(new MoneyCard("Income tax refund, collect $20", 20));
-        //communityChest.addCard(new MoneyCard("It's your birthday, collect $10 from every player", 10));
+        // communityChest.addCard(new MoneyCard("It's your birthday, collect $10 from
+        // every player", 10));
         communityChest.addCard(new MoneyCard("Life insurance matures, collect $100", 100));
         communityChest.addCard(new MoneyCard("Pay hospital fees of $100", -100));
         communityChest.addCard(new MoneyCard("Pay school fees of $50", -50));
         communityChest.addCard(new MoneyCard("Receive $25 consultancy fee", 25));
-        //communityChest.addCard(new MoneyCard("You are assessed for street repairs, $40 per house, $115 per hotel", 0));
+        // communityChest.addCard(new MoneyCard("You are assessed for street repairs,
+        // $40 per house, $115 per hotel", 0));
         communityChest.addCard(new MoneyCard("You have won second prize in a beauty contest, collect $10", 10));
         communityChest.addCard(new MoneyCard("You inherit $100", 100));
         communityChest.addCard(new MoneyCard("From sale of stock you get $45", 45));
@@ -249,10 +251,8 @@ public class Board {
         communityChest.addCard(new MoneyCard("You win $200", 200));
         communityChest.addCard(new MoneyCard("You win $50", 50));
         communityChest.addCard(new MoneyCard("You win $5", 5));
-        
+
         communityChest.shuffle();
     }
 
-
 }
-

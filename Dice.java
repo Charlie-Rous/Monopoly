@@ -9,7 +9,7 @@ public class Dice {
         } else {
             System.out.println(name + " rolled a " + rolls[0] + " and a " + rolls[1]);
         }
-        
+
         return rolls;
 
     }

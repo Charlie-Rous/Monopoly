@@ -1,12 +1,12 @@
-public class MoveTo extends MoveCard{
-    
+public class MoveTo extends MoveCard {
+
     private int destination;
-    
+
     public MoveTo(String text, int destination) {
         super(text, 0);
         this.destination = destination;
     }
-    
+
     public int getDestination() {
         return destination;
     }

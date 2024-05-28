@@ -1,5 +1,6 @@
-public class FreeParking extends Tile{
+public class FreeParking extends Tile {
     private static int funds;
+
     public FreeParking(String name) {
         super(name);
         funds = 500;

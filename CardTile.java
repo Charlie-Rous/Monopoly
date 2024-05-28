@@ -1,4 +1,4 @@
-public class CardTile extends Tile{
+public class CardTile extends Tile {
 
     private Deck deck;
 
@@ -11,5 +11,4 @@ public class CardTile extends Tile{
         return deck.drawCard();
     }
 
-    
 }

@@ -1,7 +1,7 @@
-public class MoneyCard extends Card{
-    
+public class MoneyCard extends Card {
+
     private int amount;
-    
+
     public MoneyCard(String text, int amount) {
         super(text);
         this.amount = amount;
@@ -16,7 +16,7 @@ public class MoneyCard extends Card{
             System.out.println(player.getName() + " payed $" + amount + " .");
         }
     }
-    
+
     public int getAmount() {
         return amount;
     }

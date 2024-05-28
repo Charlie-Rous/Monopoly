@@ -1,6 +1,6 @@
 public class Transportation extends Property {
     static int numOwned;
-    int[] rents = {0, 25, 50, 100, 200};
+    int[] rents = { 0, 25, 50, 100, 200 };
 
     public Transportation(String name) {
         super(name, 200);
@@ -24,6 +24,4 @@ public class Transportation extends Property {
         return getName() + " [" + numOwned + "]";
     }
 
-
-    
 }

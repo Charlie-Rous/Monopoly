@@ -8,7 +8,7 @@ public class Game {
     static ArrayList<Player> players = new ArrayList<Player>();
     static int numTurns = 0;;
     static int numDoubles = 0;
-    static final int MAX_TURNS = 100;
+    static final int MAX_TURNS = 200;
 
     public static void main(String[] args) {
         populatePlayers();
@@ -64,7 +64,7 @@ public class Game {
                     System.out.println();
                     System.out.println("--------------------");
                 } else {
-                    i--;
+                    i--; // allows player to go again
                 }
             } else {
                 numDoubles = 0;
@@ -76,7 +76,6 @@ public class Game {
         }
     }
 
-    // populate players
     public static void populatePlayers() {
         players.add(new Player("Player 1", STARTING_MONEY));
         players.add(new Player("Player 2", STARTING_MONEY));

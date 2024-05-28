@@ -6,9 +6,10 @@ public class Deck {
     public Deck() {
         cards = new ArrayList<Card>();
     }
+
     public Card drawCard() {
         return cards.remove(0);
-        
+
     }
 
     public void addCard(Card c) {
@@ -24,5 +25,3 @@ public class Deck {
         }
     }
 }
-
-

@@ -1,9 +1,8 @@
 public class Property extends Tile {
-    
+
     private int price;
     private Player owner;
     private int rent;
-    
 
     public Property(String name, int price) {
         super(name);
@@ -16,9 +15,6 @@ public class Property extends Tile {
         owner = null;
     }
 
-
-
-    // create getters for the price and the owner of the property
     public int getPrice() {
         return price;
     }
@@ -31,21 +27,12 @@ public class Property extends Tile {
         return rent;
     }
 
-   
-
-    // set owner of property
     public void setOwner(Player p) {
         owner = p;
     }
 
-
-
     public String toString() {
         return "$" + price + " " + getName();
     }
-    
 
-   
-
-   
 }
