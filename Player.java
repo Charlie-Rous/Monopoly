@@ -153,7 +153,7 @@ public class Player {
             case "Dark Blue":
                 blueMonopoly++;
                 if (blueMonopoly == 2) {
-                    setMonopoly"Dark Blue", true);
+                    setMonopoly("Dark Blue", true);
                 }
                 break;
         }    
