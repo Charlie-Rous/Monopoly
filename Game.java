@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Game {
     static Dice dice = new Dice();
@@ -11,10 +12,12 @@ public class Game {
 
     public static void main(String[] args) {
         populatePlayers();
+        System.out.println("Game started with " + players.size() + " players");
         while (players.size() > 1 && numTurns < MAX_TURNS) {
             playTurn();
             numTurns++;
         }
+        System.out.println();
 
         if (players.size() == 1) {
             System.out.println(players.get(0).getName() + " wins!");
@@ -26,9 +29,13 @@ public class Game {
 
     // play turn
     public static void playTurn() {
+        System.out.println("Turn " + numTurns);
+        System.out.println();
         for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            System.out.println(player.getName() + "$" + player.getMoney());
             boolean doubles = false;
-            int[] rolls = dice.roll(players.get(i).getName());
+            int[] rolls = dice.roll(player.getName());
             int roll = rolls[0] + rolls[1];
 
             if (rolls[0] == rolls[1]) {
@@ -36,26 +43,32 @@ public class Game {
             }
 
            
-            board.move(players.get(i), roll, doubles);
+            board.move(player, roll, doubles);
 
-            if (players.get(i).getMoney() < 0) {
-                System.out.println(players.get(i).getName() + " has gone bankrupt and is out of the game");
-                players.get(i).leaveGame();
+            if (player.getMoney() < 0) {
+                System.out.println(player.getName() + " has gone bankrupt and is out of the game");
+                player.leaveGame();
                 players.remove(i);
                 i--;
                 break;
             }
 
+            System.out.println(player.getName() + " has $" + player.getMoney());
+            Collections.sort(player.getProperties(), new PropertyComparator());
+        
+            System.out.println(player.getName() + " ownes: " + player.getProperties());
+
             
             if (doubles) {
                 numDoubles++;
                 if (numDoubles == 3) {
-                    System.out.println(players.get(i).getName() + " rolled 3 doubles in a row and is going to jail");
-                    board.getJail().addPlayer(players.get(i));
+                    System.out.println(player.getName() + " rolled 3 doubles in a row and is going to jail");
+                    board.getJail().addPlayer(player);
                     players.get(i).setPosition(10);
                     numDoubles = 0;
                     System.out.println();
                     System.out.println("--------------------");
+                    System.out.println();
                 } else {
                     i--; // allows player to go again
                 }
@@ -64,8 +77,10 @@ public class Game {
                 System.out.println();
                 System.out.println("--------------------");
             }
-
+            
             System.out.println();
+            
+            
         }
     }
 

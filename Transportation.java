@@ -21,6 +21,9 @@ public class Transportation extends Property {
     }
 
     public String toString() {
+        if (isMortgaged()) {
+            return getName() + "[" + numOwned + "] (mortgaged)";
+        }
         return getName() + " [" + numOwned + "]";
     }
 

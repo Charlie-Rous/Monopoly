@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import javax.rmi.CORBA.Util;
+
 
 public class Board {
     private ArrayList<Tile> tiles;
@@ -46,9 +46,8 @@ public class Board {
             }
         }
 
-        System.out.println(player.getName() + " has $" + player.getMoney());
-        Collections.sort(player.getProperties(), new PropertyComparator());
-        System.out.println(player.getName() + " ownes: " + player.getProperties());
+        
+        
     }
 
     public void processTile(Tile tile, Player player, int roll) {
@@ -58,7 +57,7 @@ public class Board {
             player.setPosition(10);
             return;
         }
-        if (tile instanceof Property) {
+        if (tile instanceof Property  && ((Property) tile).isMortgaged() == false) {
             Property property = (Property) tile;
             int rent;
             if (property instanceof Utilities) {
@@ -80,10 +79,10 @@ public class Board {
                     }
                 }
             } else if (property.getOwner() != player) { // If someone else owns the property
-                
-                property.getOwner().addMoney(player.subtractMoney(rent));
+                int amountPayed = player.subtractMoney(rent);
+                property.getOwner().addMoney(amountPayed);
 
-                System.out.println(player.getName() + " paid " + property.getOwner().getName() + " $" + rent);
+                System.out.println(player.getName() + " paid " + property.getOwner().getName() + " $" + amountPayed);
             }
         } else if (tile instanceof Tax) {
             if (tile instanceof Income) {

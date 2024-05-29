@@ -12,6 +12,15 @@ public class RealEstate extends Property {
 
     }
 
+    public int mortgage() {
+        if (numHouses == 0) {
+            return super.mortgage();
+        } else {
+            System.out.println("You must sell all houses before mortgaging this property.");
+            return -1;
+        }
+    }
+
     public void clear() {
         super.clear();
         numHouses = 0;
@@ -30,6 +39,9 @@ public class RealEstate extends Property {
     }
 
     public String toString() {
+        if (isMortgaged()) {
+            return "[" + monopoly + "] " + getName() + "[" + numHouses + "] (mortgaged)";
+        }
         return "[" + monopoly + "] " + getName() + "[" + numHouses + "]";
     }
 
