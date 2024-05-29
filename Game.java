@@ -33,7 +33,8 @@ public class Game {
         System.out.println();
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
-            System.out.println(player.getName() + "$" + player.getMoney());
+            System.out.println(player.getName() + " $" + player.getMoney());
+            System.out.println();
             boolean doubles = false;
             int[] rolls = dice.roll(player.getName());
             int roll = rolls[0] + rolls[1];
@@ -54,9 +55,8 @@ public class Game {
             }
 
             System.out.println(player.getName() + " has $" + player.getMoney());
-            Collections.sort(player.getProperties(), new PropertyComparator());
-        
-            System.out.println(player.getName() + " ownes: " + player.getProperties());
+            player.printProperties();
+            
 
             
             if (doubles) {

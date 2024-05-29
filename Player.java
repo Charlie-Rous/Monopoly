@@ -1,7 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.Collections;
 public class Player {
 
     private String name;
@@ -36,6 +36,45 @@ public class Player {
 
     public ArrayList<Property> getMortgagedProperties() {
         return mortgagedProperties;
+    }
+
+    public void printProperties() {
+        Collections.sort(properties, new PropertyComparator());
+        System.out.println(name + " ownes: ");
+        if (properties.size() == 0) {
+            System.out.println("[]");
+        } else {
+            System.out.print(properties.get(0));
+            for (int i = 1; i < properties.size(); i++) {
+                if (properties.get(i) instanceof RealEstate) {
+                   RealEstate realEstate = (RealEstate) properties.get(i);
+                   if (realEstate.getMonopoly().equals(((RealEstate) properties.get(i - 1)).getMonopoly())) {
+                       System.out.print(", " + realEstate);
+                   } else {
+                       System.out.println();
+                       System.out.print(realEstate);
+                   }
+                } else if (properties.get(i) instanceof Transportation) {
+                    Transportation t = (Transportation) properties.get(i);
+                    if (properties.get(i - 1) instanceof Transportation) {
+                        System.out.print(", " + t);
+                    } else {
+                        System.out.println();
+                        System.out.print(t);
+                    }
+                } else {
+                    Utilities u = (Utilities) properties.get(i);
+                    if (properties.get(i - 1) instanceof Utilities) {
+                        System.out.print(", " + u);
+                    } else {
+                        System.out.println();
+                        System.out.print(u);
+                    }
+                }
+                
+            }
+        }
+        System.out.println();
     }
 
     public boolean hasMonopoly(String color) {
@@ -180,6 +219,7 @@ public class Player {
             System.out.println(name + " sold assets and now has $" + money + ".");
         }
         if (amount > money) {
+            System.out.println("Those are insufficient funds.");
             int temp = money;
             money -= amount;
             return temp;
