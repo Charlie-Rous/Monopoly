@@ -4,11 +4,10 @@ public class Game {
     static Dice dice = new Dice();
     static Board board = new Board();
     static final int STARTING_MONEY = 1500;
-    static final int GO_MONEY = 200;
     static ArrayList<Player> players = new ArrayList<Player>();
     static int numTurns = 0;;
     static int numDoubles = 0;
-    static final int MAX_TURNS = 200;
+    static final int MAX_TURNS = 100;
 
     public static void main(String[] args) {
         populatePlayers();
@@ -35,10 +34,8 @@ public class Game {
             if (rolls[0] == rolls[1]) {
                 doubles = true;
             }
-            if (players.get(i).getPosition() + roll >= 40) {
-                players.get(i).addMoney(GO_MONEY);
-                System.out.println(players.get(i).getName() + " passed GO and collected $200");
-            }
+
+           
             board.move(players.get(i), roll, doubles);
 
             if (players.get(i).getMoney() < 0) {
@@ -49,11 +46,7 @@ public class Game {
                 break;
             }
 
-            if (players.get(i).getPosition() == 30) {
-                System.out.println(players.get(i).getName() + " is going to jail");
-                board.getJail().addPlayer(players.get(i));
-                players.get(i).setPosition(10);
-            }
+            
             if (doubles) {
                 numDoubles++;
                 if (numDoubles == 3) {

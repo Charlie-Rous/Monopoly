@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+import java.util.Collections;
 import javax.rmi.CORBA.Util;
 
 public class Board {
@@ -7,6 +7,7 @@ public class Board {
     private Jail jail;
     private Deck chance;
     private Deck communityChest;
+    private final int GO_MONEY = 200;
 
     public Board() {
         tiles = new ArrayList<Tile>();
@@ -29,7 +30,12 @@ public class Board {
                 jail.addTurns(player);
             }
         } else {
+            if (player.getPosition() + spaces >= 40) {
+                player.addMoney(GO_MONEY);
+                System.out.println(player.getName() + " passed GO and collected $200");
+            }
             player.move(spaces);
+            
             Tile tile = tiles.get(player.getPosition());
             System.out.println(player.getName() + " landed on " + tile.getName());
 
@@ -41,10 +47,17 @@ public class Board {
         }
 
         System.out.println(player.getName() + " has $" + player.getMoney());
+        Collections.sort(player.getProperties(), new PropertyComparator());
         System.out.println(player.getName() + " ownes: " + player.getProperties());
     }
 
     public void processTile(Tile tile, Player player, int roll) {
+        if (player.getPosition() == 30) {
+            System.out.println(player.getName() + " is going to jail");
+            jail.addPlayer(player);
+            player.setPosition(10);
+            return;
+        }
         if (tile instanceof Property) {
             Property property = (Property) tile;
             int rent;
@@ -67,8 +80,8 @@ public class Board {
                     }
                 }
             } else if (property.getOwner() != player) { // If someone else owns the property
-                player.subtractMoney(rent);
-                property.getOwner().addMoney(rent);
+                
+                property.getOwner().addMoney(player.subtractMoney(rent));
 
                 System.out.println(player.getName() + " paid " + property.getOwner().getName() + " $" + rent);
             }
@@ -79,15 +92,14 @@ public class Board {
                 if (player.getMoney() * percent < amount) {
                     System.out.println(
                             player.getName() + " paid $" + (int) (player.getMoney() * percent) + " in income tax");
-                    FreeParking.addFunds((int) (player.getMoney() * percent));
-                    player.subtractMoney((int) (player.getMoney() * percent));
+                    FreeParking.addFunds(player.subtractMoney((int) (player.getMoney() * percent)));
+                    
                 } else {
-                    player.subtractMoney(amount);
-                    FreeParking.addFunds(amount);
+    
+                    FreeParking.addFunds(player.subtractMoney(amount));
                 }
             } else {
-                player.subtractMoney(((Tax) tile).getAmount());
-                FreeParking.addFunds(((Tax) tile).getAmount());
+                FreeParking.addFunds(player.subtractMoney(((Tax) tile).getAmount()));
             }
 
         } else if (tile instanceof FreeParking) {
@@ -187,13 +199,13 @@ public class Board {
         tiles.add(new RealEstate("Pacific Avenue", 300, rents13, 200, "Green"));
         tiles.add(new RealEstate("North Carolina Avenue", 300, rents13, 200, "Green"));
 
-        tiles.add(new Tile("Community Chest"));
+        tiles.add(new CardTile("Community Chest", communityChest));
 
         int[] rents14 = { 28, 150, 450, 1000, 1200, 1400 };
         tiles.add(new RealEstate("Pennsylvania Avenue", 320, rents14, 200, "Green"));
 
         tiles.add(new Transportation("Short Line"));
-        tiles.add(new Tile("Chance"));
+        tiles.add(new CardTile("Chance", chance));
 
         int[] rents15 = { 35, 175, 500, 1100, 1300, 1500 };
         tiles.add(new RealEstate("Park Place", 350, rents15, 200, "Dark Blue"));

@@ -167,8 +167,77 @@ public class Player {
         money += amount;
     }
 
-    public void subtractMoney(int amount) {
+    public int subtractMoney(int amount) {
+        if (amount > money) {
+            System.out.println(name + " owes $" + amount + " but only has $" + money + ".");
+            money += sellAssets(amount - money);
+            System.out.println(name + " sold assets and now has $" + money + ".");
+        }
+        if (amount > money) {
+            int temp = money;
+            money -= amount;
+            return temp;
+        }
         money -= amount;
+        return amount;
+    }
+
+    public int sellAssets(int amount) {
+        int total = 0;
+        
+        total += sellHouses(amount);
+        
+        return total;
+        
+    }
+
+   
+    
+
+    private int sellHouses(int amount) {
+        int total = 0;
+        while (total < amount && hasHouses()) {
+            for (Property property : properties) {
+                if (property instanceof RealEstate) {
+                    RealEstate realEstate = (RealEstate) property;
+                    if (realEstate.getNumHouses() > 0) {
+                        total += sellHouse(realEstate.getMonopoly());
+                        System.out.println(name + " sold houses on the " + realEstate.getMonopoly() + " properties for $"+ (realEstate.getPricePerHouse() / 2) * 3 + ".");
+                        if (total >= amount) {
+                            return total;
+                        }
+                    }
+                }
+            }
+        }
+        return total;
+    }
+
+    private boolean hasHouses() {
+        for (Property property : properties) {
+            if (property instanceof RealEstate) {
+                RealEstate realEstate = (RealEstate) property;
+                if (realEstate.getNumHouses() > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private int sellHouse(String monopoly) {
+        int total = 0;
+        for (Property property : properties) {
+            if (property instanceof RealEstate) {
+                RealEstate realEstate = (RealEstate) property;
+                if (realEstate.getMonopoly().equals(monopoly) && realEstate.getNumHouses() > 0) {
+                    realEstate.removeHouse();
+                    
+                    total += realEstate.getPricePerHouse() / 2;
+                }
+            }
+        }
+        return total;
     }
 
     public void move(int spaces) {

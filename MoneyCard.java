@@ -8,12 +8,13 @@ public class MoneyCard extends Card {
     }
 
     public void execute(Player player, Board board) {
-        player.addMoney(amount);
+        
         if (amount > 0) {
+            player.addMoney(amount);
             System.out.println(player.getName() + " received " + "$" + amount + ".");
         } else {
-            FreeParking.addFunds(-1 * amount);
-            System.out.println(player.getName() + " payed $" + amount + " .");
+            FreeParking.addFunds(player.subtractMoney(-1 * amount));
+            System.out.println(player.getName() + " payed $" + -1 * amount + " .");
         }
     }
 

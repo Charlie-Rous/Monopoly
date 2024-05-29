@@ -30,11 +30,15 @@ public class RealEstate extends Property {
     }
 
     public String toString() {
-        return " [" + monopoly + "] " + getName() + "[" + numHouses + "]";
+        return "[" + monopoly + "] " + getName() + "[" + numHouses + "]";
     }
 
     public String getMonopoly() {
         return monopoly;
+    }
+
+    public void removeHouse() {
+        numHouses--;
     }
 
     public int getRent() {

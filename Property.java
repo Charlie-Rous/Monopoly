@@ -1,4 +1,4 @@
-public class Property extends Tile {
+public class Property extends Tile{
 
     private int price;
     private Player owner;
@@ -34,5 +34,7 @@ public class Property extends Tile {
     public String toString() {
         return "$" + price + " " + getName();
     }
+
+    
 
 }
