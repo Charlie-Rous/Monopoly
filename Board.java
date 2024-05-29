@@ -88,10 +88,10 @@ public class Board {
             if (tile instanceof Income) {
                 int amount = ((Income) tile).getAmount();
                 double percent = ((Income) tile).getPercent();
-                if (player.getMoney() * percent < amount) {
+                if (player.getNetWorth() * percent < amount) {
                     System.out.println(
-                            player.getName() + " paid $" + (int) (player.getMoney() * percent) + " in income tax");
-                    FreeParking.addFunds(player.subtractMoney((int) (player.getMoney() * percent)));
+                            player.getName() + " paid $" + (int) (player.getNetWorth() * percent) + " in income tax");
+                    FreeParking.addFunds(player.subtractMoney((int) (player.getNetWorth() * percent)));
                     
                 } else {
     

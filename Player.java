@@ -266,8 +266,6 @@ public class Player {
         return total;
     }
 
-   
-    
 
     private int sellHouses(int amount) {
         int total = 0;
@@ -338,5 +336,21 @@ public class Player {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public int getNetWorth() {
+        int total = money;
+        for (Property property : properties) {
+            if (property.isMortgaged()) {
+                total += property.getMortgage();
+            } else {
+                total += property.getPrice();
+            }
+            if (property instanceof RealEstate) {
+                RealEstate realEstate = (RealEstate) property;
+                total += realEstate.getNumHouses() * realEstate.getPricePerHouse();
+            }
+        }
+        return total;
     }
 }
