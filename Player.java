@@ -266,7 +266,6 @@ public class Player {
         return total;
     }
 
-
     private int sellHouses(int amount) {
         int total = 0;
         while (total < amount && hasHouses()) {
