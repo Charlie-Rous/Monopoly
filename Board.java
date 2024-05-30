@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Collections;
+
 
 
 public class Board {
@@ -30,7 +30,7 @@ public class Board {
                 jail.addTurns(player);
             }
         } else {
-            if (player.getPosition() + spaces >= 40) {
+            if (player.getPosition() + spaces >= 40 && player.getPosition() + spaces != 30) {
                 player.addMoney(GO_MONEY);
                 System.out.println(player.getName() + " passed GO and collected $200");
             }
