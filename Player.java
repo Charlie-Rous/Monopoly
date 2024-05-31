@@ -2,6 +2,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Collections;
+
 public class Player {
 
     private String name;
@@ -33,8 +34,6 @@ public class Player {
         monopolies.put("Dark Blue", false);
     }
 
-    
-
     public void printProperties() {
         Collections.sort(properties, new PropertyComparator());
         System.out.println(name + " ownes: ");
@@ -44,13 +43,13 @@ public class Player {
             System.out.print(properties.get(0));
             for (int i = 1; i < properties.size(); i++) {
                 if (properties.get(i) instanceof RealEstate) {
-                   RealEstate realEstate = (RealEstate) properties.get(i);
-                   if (realEstate.getMonopoly().equals(((RealEstate) properties.get(i - 1)).getMonopoly())) {
-                       System.out.print(", " + realEstate);
-                   } else {
-                       System.out.println();
-                       System.out.print(realEstate);
-                   }
+                    RealEstate realEstate = (RealEstate) properties.get(i);
+                    if (realEstate.getMonopoly().equals(((RealEstate) properties.get(i - 1)).getMonopoly())) {
+                        System.out.print(", " + realEstate);
+                    } else {
+                        System.out.println();
+                        System.out.print(realEstate);
+                    }
                 } else if (properties.get(i) instanceof Transportation) {
                     Transportation t = (Transportation) properties.get(i);
                     if (properties.get(i - 1) instanceof Transportation) {
@@ -68,13 +67,12 @@ public class Player {
                         System.out.print(u);
                     }
                 }
-                
+
             }
         }
         System.out.println();
     }
 
-    
     public RealEstate ownsProperty(String monopoly) {
         for (Property property : properties) {
             if (property instanceof RealEstate) {
@@ -86,7 +84,7 @@ public class Player {
         }
         return null;
     }
-    
+
     public boolean hasMonopoly(String color) {
         return monopolies.get(color);
     }
@@ -103,6 +101,7 @@ public class Player {
         p.clear();
         properties.remove(p);
     }
+
     public boolean wantsToBuy(Property property) {
         if (money >= property.getPrice()) {
             return true;
@@ -111,7 +110,7 @@ public class Player {
     }
 
     public String monopolyToBuild() {
-        
+
         for (Property property : properties) {
             if (property instanceof RealEstate && property.isMortgaged() == false) {
                 int numProperties = 3;
@@ -144,13 +143,12 @@ public class Player {
 
         }
         if (numHouses == 5) {
-            System.out.println (name + " built a hotel on the " + monopoly + " properties.");
+            System.out.println(name + " built a hotel on the " + monopoly + " properties.");
         } else {
             System.out.println(name + " built houses on the " + monopoly + " properties.");
             System.out.println("The " + monopoly + " monopoly now has " + numHouses + " houses.");
         }
-        
-        
+
     }
 
     public void addProperty(Property property) {
@@ -249,14 +247,14 @@ public class Player {
 
     public int sellAssets(int amount) {
         int total = 0;
-    
+
         total += sellHouses(amount);
-        if (total < amount ) {
+        if (total < amount) {
             total += mortgageProperties(amount - total);
         }
-        
+
         return total;
-        
+
     }
 
     private int mortgageProperties(int amount) {
@@ -265,10 +263,11 @@ public class Player {
             if (property instanceof RealEstate) {
                 RealEstate realEstate = (RealEstate) property;
                 if (!realEstate.isMortgaged() && realEstate.getNumHouses() == 0) {
-                    total += realEstate.mortgage(); 
-                    System.out.println(name + " mortgaged " + realEstate.getName() + " for $" + realEstate.getMortgage() + ".");
+                    total += realEstate.mortgage();
+                    System.out.println(
+                            name + " mortgaged " + realEstate.getName() + " for $" + realEstate.getMortgage() + ".");
                     if (total >= amount) {
-                       
+
                         return total;
                     }
                 }
@@ -278,7 +277,7 @@ public class Player {
                 if (total >= amount) {
                     return total;
                 }
-            
+
             }
         }
         return total;
@@ -296,7 +295,8 @@ public class Player {
                         if (realEstate.getMonopoly().equals("Brown") || realEstate.getMonopoly().equals("Dark Blue")) {
                             numHouses = 2;
                         }
-                        System.out.println(name + " sold houses on the " + realEstate.getMonopoly() + " properties for $"+ (realEstate.getPricePerHouse() / 2) * numHouses + ".");
+                        System.out.println(name + " sold houses on the " + realEstate.getMonopoly()
+                                + " properties for $" + (realEstate.getPricePerHouse() / 2) * numHouses + ".");
                         if (total >= amount) {
                             return total;
                         }
@@ -326,7 +326,7 @@ public class Player {
                 RealEstate realEstate = (RealEstate) property;
                 if (realEstate.getMonopoly().equals(monopoly) && realEstate.getNumHouses() > 0) {
                     realEstate.removeHouse();
-                    
+
                     total += realEstate.getPricePerHouse() / 2;
                 }
             }
@@ -370,7 +370,7 @@ public class Player {
         }
         return total;
     }
-   
+
     public String wantsToTradeFor() {
         for (Property property : properties) {
             if (property instanceof RealEstate) {
@@ -399,8 +399,5 @@ public class Player {
         }
         return null;
     }
-
-    
-
 
 }

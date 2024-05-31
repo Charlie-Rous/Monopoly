@@ -157,6 +157,7 @@ public class Game {
     }
 
     public static void populatePlayers() {
+        players.add(new Human("Human", STARTING_MONEY));
         players.add(new Player("Player 1", STARTING_MONEY));
         players.add(new Player("Player 2", STARTING_MONEY));
         // players.add(new ConservativePlayer("Conservative", MAX_TURNS));
