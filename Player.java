@@ -8,7 +8,6 @@ public class Player {
     private int money;
     private int position;
     ArrayList<Property> properties = new ArrayList<Property>();
-    ArrayList<Property> mortgagedProperties = new ArrayList<Property>();
     HashMap<String, Boolean> monopolies = new HashMap<String, Boolean>();
     private int brownMonopoly = 0;
     private int lightBlueMonopoly = 0;
@@ -34,9 +33,7 @@ public class Player {
         monopolies.put("Dark Blue", false);
     }
 
-    public ArrayList<Property> getMortgagedProperties() {
-        return mortgagedProperties;
-    }
+    
 
     public void printProperties() {
         Collections.sort(properties, new PropertyComparator());
@@ -77,6 +74,19 @@ public class Player {
         System.out.println();
     }
 
+    
+    public RealEstate ownsProperty(String monopoly) {
+        for (Property property : properties) {
+            if (property instanceof RealEstate) {
+                RealEstate realEstate = (RealEstate) property;
+                if (realEstate.getMonopoly().equals(monopoly)) {
+                    return realEstate;
+                }
+            }
+        }
+        return null;
+    }
+    
     public boolean hasMonopoly(String color) {
         return monopolies.get(color);
     }
@@ -89,6 +99,10 @@ public class Player {
         return monopolies.values().contains(true);
     }
 
+    public void removeProperty(Property p) {
+        p.clear();
+        properties.remove(p);
+    }
     public boolean wantsToBuy(Property property) {
         if (money >= property.getPrice()) {
             return true;
@@ -129,8 +143,14 @@ public class Player {
             }
 
         }
-        System.out.println(name + " built houses on the " + monopoly + " properties.");
-        System.out.println("The " + monopoly + " monopoly now has " + numHouses + " houses.");
+        if (numHouses == 5) {
+            System.out.println (name + " built a hotel on the " + monopoly + " properties.");
+        } else {
+            System.out.println(name + " built houses on the " + monopoly + " properties.");
+            System.out.println("The " + monopoly + " monopoly now has " + numHouses + " houses.");
+        }
+        
+        
     }
 
     public void addProperty(Property property) {
@@ -155,7 +175,7 @@ public class Player {
             case "Light Blue":
                 lightBlueMonopoly++;
                 if (lightBlueMonopoly == 3) {
-                    setMonopoly("Light BLue", true);
+                    setMonopoly("Light Blue", true);
                 }
                 break;
             case "Pink":
@@ -200,7 +220,6 @@ public class Player {
     public void leaveGame() {
         for (Property property : properties) {
             property.clear();
-
         }
     }
 
@@ -246,8 +265,7 @@ public class Player {
             if (property instanceof RealEstate) {
                 RealEstate realEstate = (RealEstate) property;
                 if (!realEstate.isMortgaged() && realEstate.getNumHouses() == 0) {
-                    total += realEstate.mortgage();
-                    mortgagedProperties.add(realEstate);
+                    total += realEstate.mortgage(); 
                     System.out.println(name + " mortgaged " + realEstate.getName() + " for $" + realEstate.getMortgage() + ".");
                     if (total >= amount) {
                        
@@ -352,4 +370,37 @@ public class Player {
         }
         return total;
     }
+   
+    public String wantsToTradeFor() {
+        for (Property property : properties) {
+            if (property instanceof RealEstate) {
+                RealEstate realEstate = (RealEstate) property;
+                String monopoly = realEstate.getMonopoly();
+                if (realEstate.getNumHouses() == 0) {
+                    if (monopoly.equals("Brown") && brownMonopoly == 1) {
+                        return monopoly;
+                    } else if (monopoly.equals("Light Blue") && lightBlueMonopoly == 2) {
+                        return monopoly;
+                    } else if (monopoly.equals("Pink") && pinkMonopoly == 2) {
+                        return monopoly;
+                    } else if (monopoly.equals("Orange") && orangeMonopoly == 2) {
+                        return monopoly;
+                    } else if (monopoly.equals("Red") && redMonopoly == 2) {
+                        return monopoly;
+                    } else if (monopoly.equals("Yellow") && yellowMonopoly == 2) {
+                        return monopoly;
+                    } else if (monopoly.equals("Green") && greenMonopoly == 2) {
+                        return monopoly;
+                    } else if (monopoly.equals("Dark Blue") && blueMonopoly == 1) {
+                        return monopoly;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    
+
+
 }

@@ -30,6 +30,7 @@ public class Property extends Tile{
 
     public void clear() {
         owner = null;
+        isMortgaged = false;
     }
 
     public int getPrice() {

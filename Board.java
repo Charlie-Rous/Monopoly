@@ -94,10 +94,11 @@ public class Board {
                     FreeParking.addFunds(player.subtractMoney((int) (player.getNetWorth() * percent)));
                     
                 } else {
-    
+                    System.out.println(player.getName() + " paid $" + amount + " in income tax");
                     FreeParking.addFunds(player.subtractMoney(amount));
                 }
             } else {
+                System.out.println(player.getName() + " paid $" + ((Tax) tile).getAmount() + " in luxury tax");
                 FreeParking.addFunds(player.subtractMoney(((Tax) tile).getAmount()));
             }
 
