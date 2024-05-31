@@ -159,6 +159,10 @@ public class Game {
         // players.add(new Human("Human", STARTING_MONEY));
         players.add(new Player("Player 1", STARTING_MONEY));
         players.add(new Player("Player 2", STARTING_MONEY));
+        players.add(new Player("Player 3", STARTING_MONEY));
+        players.add(new Player("Player 4", STARTING_MONEY));
+        players.add(new Player("Player 5", STARTING_MONEY));
+        players.add(new Player("Player 6", STARTING_MONEY));
         // players.add(new ConservativePlayer("Conservative", MAX_TURNS));
         // players.add(new RedCornerPlayer("Red Player", MAX_TURNS));
         // players.add(new BrownCornerPlayer("Brown Player", MAX_TURNS));
