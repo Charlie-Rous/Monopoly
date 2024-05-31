@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-
 public class Game {
     static Dice dice = new Dice();
     static Board board = new Board();
@@ -10,6 +9,7 @@ public class Game {
     static int numDoubles = 0;
     static final int MAX_TURNS = 100;
     static boolean turnByTurn = false;
+
     public static void main(String[] args) {
         startGame();
 
@@ -26,7 +26,6 @@ public class Game {
         }
         System.out.println();
 
-
         if (players.size() == 1) {
             System.out.println(players.get(0).getName() + " wins!");
         } else {
@@ -42,7 +41,7 @@ public class Game {
         while (!validInput) {
             System.out.print("Simulation or Turn by Turn ? (s/t) ");
             String input = System.console().readLine();
-            if (input.equals("t"))  {
+            if (input.equals("t")) {
                 turnByTurn = true;
                 validInput = true;
             } else if (input.equals("s")) {
@@ -70,8 +69,8 @@ public class Game {
                 doubles = true;
             }
 
-           
             board.move(player, roll, doubles);
+            trades(player);
 
             if (player.getMoney() < 0) {
                 System.out.println(player.getName() + " has gone bankrupt and is out of the game");
@@ -81,15 +80,9 @@ public class Game {
                 break;
             }
 
-            trades(player);
-
-            
-
             System.out.println(player.getName() + " has $" + player.getMoney());
             player.printProperties();
-            
 
-            
             if (doubles) {
                 numDoubles++;
                 if (numDoubles == 3) {
@@ -108,56 +101,62 @@ public class Game {
                 System.out.println();
                 System.out.println("--------------------");
             }
-            
+
             System.out.println();
-            
-            
+
         }
 
     }
 
     public static void trades(Player player) {
         String monopoly = player.wantsToTradeFor();
-            if (monopoly != null) {
-                System.out.println(player.getName() + " wants to trade for " + monopoly);
-                for (Player otherPlayer : players) {
-                    if (otherPlayer != player) {
-                        if (otherPlayer.ownsProperty(monopoly) != null) {
-                            RealEstate property = otherPlayer.ownsProperty(monopoly);
-                            String otherMonopoly = otherPlayer.wantsToTradeFor();
-                            int price = property.getPrice() * 3;
-                            if (otherMonopoly != null && player.ownsProperty(otherMonopoly) != null && !otherMonopoly.equals(monopoly) ) {
-                                Property property1 = otherPlayer.ownsProperty(monopoly);
-                                Property property2 = player.ownsProperty(otherPlayer.wantsToTradeFor());
-                                
-                                player.removeProperty(property2);
-                                otherPlayer.removeProperty(property1);
-                                player.addProperty(property1);
-                                otherPlayer.addProperty(property2);
-                                System.out.println(player.getName() + " traded " + property2.getName() + " for " + property1.getName() + " with " + otherPlayer.getName());
-                                return;
-                            } else if (player.getMoney() >= price) {
-                                player.subtractMoney(price);
-                                otherPlayer.addMoney(price);
-                                otherPlayer.removeProperty(property);
-                                player.addProperty(property);
-                                
-                                System.out.println(player.getName() + " bought " + property.getName() + " from " + otherPlayer.getName() + " for $" + price);
-                                return;
-                            }
-
+        if (monopoly != null) {
+            System.out.println(player.getName() + " wants to trade for " + monopoly);
+            for (Player otherPlayer : players) {
+                if (otherPlayer != player) {
+                    if (otherPlayer.ownsProperty(monopoly) != null) {
+                        RealEstate property = otherPlayer.ownsProperty(monopoly);
+                        if (property.isMortgaged()) {
+                            System.out.println(otherPlayer.getName() + "'s " + property.getName() + " is mortgaged");
+                            return;
                         }
+                        String otherMonopoly = otherPlayer.wantsToTradeFor();
+                        int price = property.getPrice() * 3;
+                        if (otherMonopoly != null && player.ownsProperty(otherMonopoly) != null
+                                && !otherMonopoly.equals(monopoly)) {
+                            Property property1 = otherPlayer.ownsProperty(monopoly);
+                            Property property2 = player.ownsProperty(otherPlayer.wantsToTradeFor());
+
+                            player.removeProperty(property2);
+                            otherPlayer.removeProperty(property1);
+                            player.addProperty(property1);
+                            otherPlayer.addProperty(property2);
+                            System.out.println(player.getName() + " traded " + property2.getName() + " for "
+                                    + property1.getName() + " with " + otherPlayer.getName());
+                            return;
+                        } else if (player.getMoney() >= price) {
+                            player.subtractMoney(price);
+                            otherPlayer.addMoney(price);
+                            otherPlayer.removeProperty(property);
+                            player.addProperty(property);
+
+                            System.out.println(player.getName() + " bought " + property.getName() + " from "
+                                    + otherPlayer.getName() + " for $" + price);
+                            return;
+                        }
+
                     }
                 }
-                System.out.println(player.getName() + " could not find a trade partner");
-            } else {
-                System.out.println(player.getName() + " does not want to trade");
             }
-        
+            System.out.println(player.getName() + " could not find a trade partner");
+        } else {
+            System.out.println(player.getName() + " does not want to trade");
+        }
+
     }
 
     public static void populatePlayers() {
-        players.add(new Human("Human", STARTING_MONEY));
+        // players.add(new Human("Human", STARTING_MONEY));
         players.add(new Player("Player 1", STARTING_MONEY));
         players.add(new Player("Player 2", STARTING_MONEY));
         // players.add(new ConservativePlayer("Conservative", MAX_TURNS));

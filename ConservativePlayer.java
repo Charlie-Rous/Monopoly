@@ -1,5 +1,5 @@
 public class ConservativePlayer extends Player {
-    
+
     public ConservativePlayer(String name, int position) {
         super(name, position);
     }

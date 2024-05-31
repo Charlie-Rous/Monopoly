@@ -1,17 +1,18 @@
 public class Human extends Player {
-    
+
     public Human(String name, int money) {
         super(name, money);
-        
+
     }
 
     public boolean wantsToBuy(Property property) {
         if (getMoney() >= property.getPrice()) {
-            String answer = takeInput("Would you like to buy " + property.getName() + " for $" + property.getPrice() + "? (y/n)");
+            String answer = takeInput(
+                    "Would you like to buy " + property.getName() + " for $" + property.getPrice() + "? (y/n)");
             if (answer.equals("y")) {
                 return true;
             }
-            
+
         }
         return false;
     }
@@ -53,12 +54,14 @@ public class Human extends Player {
     }
 
     public String wantsToTradeFor() {
-        
+
         String answer = takeInput("Would you like to trade for a property? (y/n)");
         if (answer.equals("y")) {
             System.out.println("Which monopoly would you like to trade for?");
             String monopoly = System.console().readLine();
-            if (monopoly.equals("Brown") || monopoly.equals("Dark Blue") || monopoly.equals("Pink") || monopoly.equals("Light Blue") || monopoly.equals("Orange") || monopoly.equals("Red") || monopoly.equals("Yellow") || monopoly.equals("Green")) {
+            if (monopoly.equals("Brown") || monopoly.equals("Dark Blue") || monopoly.equals("Pink")
+                    || monopoly.equals("Light Blue") || monopoly.equals("Orange") || monopoly.equals("Red")
+                    || monopoly.equals("Yellow") || monopoly.equals("Green")) {
                 return monopoly;
             } else {
                 System.out.println("Invalid input");

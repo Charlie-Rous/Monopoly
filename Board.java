@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 
-
-
 public class Board {
     private ArrayList<Tile> tiles;
     private Jail jail;
@@ -18,7 +16,6 @@ public class Board {
         jail = new Jail("Jail");
     }
 
-    
     public void move(Player player, int spaces, boolean doubles) {
         if (jail.getPlayers().contains(player)) {
             if (doubles) { // rolling doubles lets you out of jail
@@ -35,7 +32,7 @@ public class Board {
                 System.out.println(player.getName() + " passed GO and collected $200");
             }
             player.move(spaces);
-            
+
             Tile tile = tiles.get(player.getPosition());
             System.out.println(player.getName() + " landed on " + tile.getName());
 
@@ -46,8 +43,6 @@ public class Board {
             }
         }
 
-        
-        
     }
 
     public void processTile(Tile tile, Player player, int roll) {
@@ -57,7 +52,7 @@ public class Board {
             player.setPosition(10);
             return;
         }
-        if (tile instanceof Property  && ((Property) tile).isMortgaged() == false) {
+        if (tile instanceof Property && ((Property) tile).isMortgaged() == false) {
             Property property = (Property) tile;
             int rent;
             if (property instanceof Utilities) {
@@ -92,7 +87,7 @@ public class Board {
                     System.out.println(
                             player.getName() + " paid $" + (int) (player.getNetWorth() * percent) + " in income tax");
                     FreeParking.addFunds(player.subtractMoney((int) (player.getNetWorth() * percent)));
-                    
+
                 } else {
                     System.out.println(player.getName() + " paid $" + amount + " in income tax");
                     FreeParking.addFunds(player.subtractMoney(amount));
